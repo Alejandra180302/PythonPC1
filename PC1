@@ -1,0 +1,128 @@
+PC1
+#PROBLEMA 1
+nombre=str(input("ingrese su nombre: "))
+print(f"¡Hola {nombre}!")
+
+
+#PROBLEMA 2
+consumo_rest=int(input("Ingrese cuanto consumió: "))
+porcentaje_prop=int(input("Ingrese el porcentaje de propina deseado: "))
+propina=consumo_rest*porcentaje_prop/100
+
+print(f"la cantidad de dinero a dejar como propina es {propina} ")
+
+
+#PROBLEMA 3
+num_payasos=int(input("Ingrese cantidad de payasos: "))
+num_muñecas=int(input("Ingrese cantidad de muñecas: "))
+peso_total=(num_payasos*112)+(num_muñecas*75)
+
+print(f"la cantidad a enviar será de {num_payasos} payasos y {num_muñecas} muñecas. El peso total es de {peso_total} gramos. ")
+
+
+#PROBLEMA 4
+N=int(input("Ingrese un número entero: "))
+sumade_num=(N*(N+1))/2
+
+print(f"La suma de números enteros es {sumade_num}.")
+
+#PROBLEMA 5
+shows=int(input("Ingrese el número shows musicales ha visto en el último año: "))
+valor=shows>3
+print(valor)
+
+
+#PROBLEMA 6
+edad=int(input("Ingrese su edad: "))
+
+if edad<4:
+    print("Entrada gratis")
+elif edad>=4 and edad<=18:
+    print("Entrada $5")
+else:
+    print("Entrada $10")
+
+
+#PROBLEMA 7
+num1 = float(input("Ingresa el primer número: "))
+num2 = float(input("Ingresa el segundo número: "))
+
+print("\nElige una opción:")
+print("1. Sumar los dos números")
+print("2. Restar el primero menos el segundo")
+print("3. Multiplicar los dos números")
+
+opcion = input("\nIntroduce el número de la opción deseada: ")
+
+if opcion == "1":
+    resultado = num1 + num2
+    print(f"\nLa suma de {num1} y {num2} es: {resultado}")
+elif opcion == "2":
+    resultado = num1 - num2
+    print(f"\nLa resta de {num1} menos {num2} es: {resultado}")
+elif opcion == "3":
+    resultado = num1 * num2
+    print(f"\nLa multiplicación de {num1} y {num2} es: {resultado}")
+else:
+    print("\nOpción no válida. Por favor, selecciona 1, 2 o 3.")
+
+
+#PROBLEMA 8
+def convertir_a_decimal(hora):
+    horas, minutos = map(int, hora.split(":"))
+    return horas + minutos / 60
+
+hora_usuario = input("Ingresa una hora en formato hh:mm: ")
+
+hora_decimal = convertir_a_decimal(hora_usuario)
+
+if 7 <= hora_decimal <= 8:
+    print("Es la hora del desayuno.")
+elif 12 <= hora_decimal <= 13:
+    print("Es la hora del almuerzo.")
+elif 18 <= hora_decimal <= 19:
+    print("Es la hora de la cena.")
+
+
+#PROBLEMA 9
+lista_original = ['Di', 'buen', 'día', 'a', 'papa']
+
+lista_invertida = lista_original[::-1]
+
+print(lista_invertida)
+
+
+#PROBLEMA 10
+lista = ['Rojo', 'Verde', 'Blanco', 'Negro', 'Rosa', 'Amarillo']
+
+nueva_lista = [lista[i] for i in range(len(lista)) if i not in [0, 4, 5]]
+
+print(nueva_lista)
+
+
+#PROBLEMA 11
+lista_original = [1, 1, 2, 3, 4, 4, 5, 1]
+
+lista_procesada = list(set(lista_original))
+
+print(lista_procesada)
+
+
+#PROBLEMA 12
+mime_types = {
+    '.gif': 'image/gif',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.pdf': 'application/pdf',
+    '.txt': 'text/plain',
+    '.zip': 'application/zip'
+}
+
+nombre_archivo = input("Ingrese el nombre del archivo: ").strip()
+
+extension = nombre_archivo[nombre_archivo.rfind('.'):].lower() if '.' in nombre_archivo else ''
+
+tipo_mime = mime_types.get(extension, 'application/octet-stream')
+
+print(tipo_mime)
