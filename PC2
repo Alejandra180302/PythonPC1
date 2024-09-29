@@ -1,1 +1,104 @@
+##PROBLEMA 1
+for num in range(1500, 2701):
+    if num % 7 == 0 and num % 5 == 0:
+        print(num)
+
+##PROBLEMA 2
+for i in range(1, 6):
+    print("* " * i)
+for i in range(4, 0, -1):
+    print("* " * i)
+
+##PROBLEMA 3
+numeros = []
+while True:
+    respuesta = input("¿Desea ingresar un número? (SI/NO): ").lower()
+    if respuesta == 'no':
+        break
+    numero = int(input("Ingrese el número: "))
+    numeros.append(numero)
+
+pares = [n for n in numeros if n % 2 == 0]
+impares = [n for n in numeros if n % 2 != 0]
+
+print("Números ingresados:", numeros)
+print("Cantidad de números pares:", len(pares))
+print("Cantidad de números impares:", len(impares))
+
+##PROBLEMA 4
+alumnos = []
+n = int(input("Ingrese la cantidad de alumnos: "))
+
+for _ in range(n):
+    nombre = input("Nombre del alumno: ")
+    notas = []
+    for i in range(3):
+        nota = int(input(f"Ingrese la nota {i+1}: "))
+        notas.append(nota)
+    alumnos.append({'Alumno': nombre, 'Notas': notas})
+
+print("Listado de alumnos y calificaciones:")
+for alumno in alumnos:
+    print(alumno)
+
+##PROBLEMA 5
+def es_primo(num):
+    if num < 2:
+        return False
+    for i in range(2, int(num ** 0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+suma_primos = sum(num for num in range(100) if es_primo(num))
+print("La suma de los primos menores que 100 es:", suma_primos)
+
+##PROBLEMA 6
+a, b = 0, 1
+while a <= 50:
+    print(a, end=" ")
+    a, b = b, a + b
+
+##PROBLEMA 7
+def es_perfecto(num):
+    divisores = [i for i in range(1, num) if num % i == 0]
+    return sum(divisores) == num
+
+perfectos = [num for num in range(1, 1001) if es_perfecto(num)]
+print("Números perfectos menores que 1000:", perfectos)
+
+##PROBLEMA 8
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+num = int(input("Ingrese un número para calcular el factorial: "))
+print(f"El factorial de {num} es:", factorial(num))
+
+##PROBLEMA 9
+def remover_vocales(texto):
+    vocales = "aeiouAEIOU"
+    return ''.join([letra for letra in texto if letra not in vocales])
+
+texto = input("Ingrese una cadena de texto: ")
+print("Texto sin vocales:", remover_vocales(texto))
+
+##PROBLEMA 10
+import datetime
+
+def convertir_fecha(fecha):
+    try:
+        if '/' in fecha:
+            fecha = datetime.datetime.strptime(fecha, "%m/%d/%Y")
+        else:
+            fecha = datetime.datetime.strptime(fecha, "%B %d, %Y")
+        return fecha.strftime("%Y-%m-%d")
+    except ValueError:
+        return "Formato de fecha no válido."
+
+fecha = input("Ingrese una fecha (MM/DD/AAAA o Mes Día, Año): ")
+print("Fecha en formato AAAA-MM-DD:", convertir_fecha(fecha))
+
 
