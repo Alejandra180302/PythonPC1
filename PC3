@@ -1,0 +1,396 @@
+## PROBLEMA 1
+def get_fuel_percentage():
+    while True:
+        try:
+            fraction = input("Ingrese una fracción (X/Y): ")
+            X, Y = fraction.split('/')
+            X = int(X)
+            Y = int(Y)
+            if Y == 0:
+                raise ZeroDivisionError
+            if X > Y:
+                raise ValueError
+            percentage = (X / Y) * 100
+            if percentage <= 1:
+                return "E"
+            elif percentage >= 99:
+                return "F"
+            else:
+                return f"{round(percentage)}%"
+        except ValueError:
+            print("Error: Solo se permiten números enteros y X debe ser menor o igual a Y.")
+        except ZeroDivisionError:
+            print("Error: No se puede dividir entre 0.")
+
+if __name__ == "__main__":
+    print(get_fuel_percentage())
+
+## PROBLEMA 2
+def get_grades():
+    while True:
+        try:
+            grades = input("Ingrese las calificaciones separadas por comas: ")
+            grades_list = [int(grade) for grade in grades.split(',')]
+            return grades_list
+        except ValueError:
+            print("Error: Asegúrese de ingresar solo números separados por comas.")
+
+if __name__ == "__main__":
+    print(get_grades())
+
+
+## PROBLEMA 3
+import math
+
+class Circulo:
+    def __init__(self, radio):
+        self.radio = radio
+
+    def calcular_area(self):
+        return math.pi * (self.radio ** 2)
+
+if __name__ == "__main__":
+    c1 = Circulo(5)
+    c2 = Circulo(10)
+    print(f"Área del círculo 1: {c1.calcular_area()}")
+    print(f"Área del círculo 2: {c2.calcular_area()}")
+
+## PROBLEMA 4
+class Rectangulo:
+    def __init__(self, largo, ancho):
+        self.largo = largo
+        self.ancho = ancho
+
+    def calcular_area(self):
+        return self.largo * self.ancho
+
+class Cuadrado(Rectangulo):
+    def __init__(self, lado):
+        super().__init__(lado, lado)
+
+if __name__ == "__main__":
+    r = Rectangulo(5, 10)
+    c = Cuadrado(6)
+    print(f"Área del rectángulo: {r.calcular_area()}")
+    print(f"Área del cuadrado: {c.calcular_area()}")
+
+
+## PROBLEMA 5
+class Alumno:
+    def __init__(self, nombre, registro):
+        self.nombre = nombre
+        self.registro = registro
+        self.edad = None
+        self.nota = None
+
+    def display(self):
+        print(f"Nombre: {self.nombre}, Registro: {self.registro}, Edad: {self.edad}, Nota: {self.nota}")
+
+    def set_age(self, edad):
+        self.edad = edad
+
+    def set_nota(self, nota):
+        self.nota = nota
+
+if __name__ == "__main__":
+    a1 = Alumno("Carlos", 12345)
+    a1.set_age(20)
+    a1.set_nota(18)
+    a1.display()
+
+
+## PROBLEMA 6
+class Producto:
+    def __init__(self, nombre, año):
+        self.nombre = nombre
+        self.año = año
+
+    def __str__(self):
+        return f"Producto: {self.nombre}, Año: {self.año}"
+
+class Catalogo:
+    def __init__(self):
+        self.productos = []
+
+    def agregar_producto(self, producto):
+        self.productos.append(producto)
+
+    def mostrar_productos(self):
+        for producto in self.productos:
+            print(producto)
+
+if __name__ == "__main__":
+    p1 = Producto("Llanta", 2020)
+    p2 = Producto("Filtro", 2022)
+    catalogo = Catalogo()
+    catalogo.agregar_producto(p1)
+    catalogo.agregar_producto(p2)
+    catalogo.mostrar_productos()
+
+
+## PROBLEMA 7
+## PARA EL PUNTO
+import math
+
+class Punto:
+    def __init__(self, x=0, y=0):
+        """Constructor de la clase Punto con valores por defecto en (0, 0)"""
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        """Método para imprimir el punto en el formato (X,Y)"""
+        return f"({self.x}, {self.y})"
+
+    def cuadrante(self):
+        """Método para determinar en qué cuadrante se encuentra el punto"""
+        if self.x > 0 and self.y > 0:
+            return "El punto está en el primer cuadrante."
+        elif self.x < 0 and self.y > 0:
+            return "El punto está en el segundo cuadrante."
+        elif self.x < 0 and self.y < 0:
+            return "El punto está en el tercer cuadrante."
+        elif self.x > 0 and self.y < 0:
+            return "El punto está en el cuarto cuadrante."
+        elif self.x == 0 and self.y != 0:
+            return "El punto está sobre el eje Y."
+        elif self.y == 0 and self.x != 0:
+            return "El punto está sobre el eje X."
+        else:
+            return "El punto está en el origen."
+
+    def vector(self, otro_punto):
+        """Método que calcula el vector resultante entre dos puntos"""
+        vector_x = otro_punto.x - self.x
+        vector_y = otro_punto.y - self.y
+        return f"El vector resultante es ({vector_x}, {vector_y})"
+
+    def distancia(self, otro_punto):
+        """Método que calcula la distancia entre dos puntos"""
+        distancia = math.sqrt((otro_punto.x - self.x) ** 2 + (otro_punto.y - self.y) ** 2)
+        return f"La distancia entre los puntos es {distancia:.2f}"
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    punto1 = Punto(3, 4)
+    punto2 = Punto(0, 0)
+
+    print(punto1)  # (3, 4)
+    print(punto1.cuadrante())  # Primer cuadrante
+    print(punto1.vector(punto2))  # El vector resultante es (-3, -4)
+    print(punto1.distancia(punto2))  # La distancia entre los puntos es 5.00
+
+## PARA EL RECTANGULO
+class Rectangulo:
+    def __init__(self, punto1=Punto(), punto2=Punto()):
+        """Constructor que recibe dos puntos para definir la diagonal del rectángulo"""
+        self.punto1 = punto1
+        self.punto2 = punto2
+
+    def base(self):
+        """Método que calcula la base del rectángulo"""
+        return abs(self.punto2.x - self.punto1.x)
+
+    def altura(self):
+        """Método que calcula la altura del rectángulo"""
+        return abs(self.punto2.y - self.punto1.y)
+
+    def area(self):
+        """Método que calcula el área del rectángulo"""
+        return self.base() * self.altura()
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    punto_inicial = Punto(2, 3)
+    punto_final = Punto(5, 7)
+    
+    rectangulo = Rectangulo(punto_inicial, punto_final)
+
+    print(f"La base del rectángulo es: {rectangulo.base()}")  # Base: 3
+    print(f"La altura del rectángulo es: {rectangulo.altura()}")  # Altura: 4
+    print(f"El área del rectángulo es: {rectangulo.area()}")  # Área: 12
+
+
+## PROBLEMA 8
+def suma(a, b):
+    try:
+        return a + b
+    except TypeError:
+        return "Error: Tipo de dato no válido."
+
+def resta(a, b):
+    try:
+        return a - b
+    except TypeError:
+        return "Error: Tipo de dato no válido."
+
+def producto(a, b):
+    try:
+        return a * b
+    except TypeError:
+        return "Error: Tipo de dato no válido."
+
+def division(a, b):
+    try:
+        if b == 0:
+            raise ZeroDivisionError
+        return a / b
+    except ZeroDivisionError:
+        return "Error: No es posible dividir entre cero."
+    except TypeError:
+        return "Error: Tipo de dato no válido."
+
+
+## PROBLEMA 9
+import math
+
+class Circulo:
+    def __init__(self, radio):
+        self.radio = radio
+
+    def calcular_area(self):
+        return math.pi * (self.radio ** 2)
+
+class Rectangulo:
+    def __init__(self, largo, ancho):
+        self.largo = largo
+        self.ancho = ancho
+
+    def calcular_area(self):
+        return self.largo * self.ancho
+
+class Cuadrado(Rectangulo):
+    def __init__(self, lado):
+        super().__init__(lado, lado)
+
+def es_numero_positivo(valor):
+    try:
+        num = float(valor)
+        if num <= 0:
+            raise ValueError
+        return num
+    except ValueError:
+        print("Error: Ingrese un número válido y positivo.")
+        return None
+
+def menu():
+    while True:
+        print("\nMenú:")
+        print("1. Calcular el área de un círculo")
+        print("2. Calcular el área de un rectángulo")
+        print("3. Calcular el área de un cuadrado")
+        print("4. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            radio = es_numero_positivo(input("Ingrese el radio del círculo: "))
+            if radio:
+                circulo = Circulo(radio)
+                print(f"Área del círculo: {circulo.calcular_area()}")
+        elif opcion == "2":
+            largo = es_numero_positivo(input("Ingrese el largo del rectángulo: "))
+            ancho = es_numero_positivo(input("Ingrese el ancho del rectángulo: "))
+            if largo and ancho:
+                rectangulo = Rectangulo(largo, ancho)
+                print(f"Área del rectángulo: {rectangulo.calcular_area()}")
+        elif opcion == "3":
+            lado = es_numero_positivo(input("Ingrese el lado del cuadrado: "))
+            if lado:
+                cuadrado = Cuadrado(lado)
+                print(f"Área del cuadrado: {cuadrado.calcular_area()}")
+        elif opcion == "4":
+            print("Saliendo del programa.")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+if __name__ == "__main__":
+    menu()
+
+
+## PROBLEMA 10
+# libro.py
+class Libro:
+    def __init__(self, titulo, autor, isbn):
+        self.titulo = titulo
+        self.autor = autor
+        self.isbn = isbn
+
+    def __str__(self):
+        return f"Titulo: {self.titulo}, Autor: {self.autor}, ISBN: {self.isbn}"
+
+# gestion.py
+class GestionBiblioteca:
+    def __init__(self):
+        self.libros = []
+
+    def agregar_libro(self, libro):
+        self.libros.append(libro)
+
+    def listar_libros(self):
+        for libro in self.libros:
+            print(libro)
+
+    def buscar_por_titulo(self, titulo):
+        encontrados = [libro for libro in self.libros if titulo.lower() in libro.titulo.lower()]
+        return encontrados
+
+    def buscar_por_autor(self, autor):
+        encontrados = [libro for libro in self.libros if autor.lower() in libro.autor.lower()]
+        return encontrados
+
+# main.py
+from libro import Libro
+from gestion import GestionBiblioteca
+
+def menu():
+    gestion = GestionBiblioteca()
+
+    while True:
+        print("\nMenú de Biblioteca:")
+        print("1. Agregar un libro")
+        print("2. Listar los libros")
+        print("3. Buscar un libro por título")
+        print("4. Buscar un libro por autor")
+        print("5. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            titulo = input("Ingrese el título del libro: ")
+            autor = input("Ingrese el autor del libro: ")
+            isbn = input("Ingrese el ISBN del libro: ")
+            libro = Libro(titulo, autor, isbn)
+            gestion.agregar_libro(libro)
+            print("Libro agregado exitosamente.")
+        elif opcion == "2":
+            print("Lista de libros en la biblioteca:")
+            gestion.listar_libros()
+        elif opcion == "3":
+            titulo = input("Ingrese el título a buscar: ")
+            encontrados = gestion.buscar_por_titulo(titulo)
+            if encontrados:
+                print("Libros encontrados:")
+                for libro in encontrados:
+                    print(libro)
+            else:
+                print("No se encontraron libros con ese título.")
+        elif opcion == "4":
+            autor = input("Ingrese el autor a buscar: ")
+            encontrados = gestion.buscar_por_autor(autor)
+            if encontrados:
+                print("Libros encontrados:")
+                for libro in encontrados:
+                    print(libro)
+            else:
+                print("No se encontraron libros de ese autor.")
+        elif opcion == "5":
+            print("Saliendo del programa.")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+if __name__ == "__main__":
+    menu()
+
