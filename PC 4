@@ -1,0 +1,414 @@
+## PROBLEMA 1
+import requests
+
+def obtener_precio_bitcoin():
+    url = "https://api.coindesk.com/v1/bpi/currentprice.json"
+    try:
+        respuesta = requests.get(url)
+        respuesta.raise_for_status()
+        # Extraer el JSON de la respuesta
+        datos = respuesta.json()
+        precio_usd = datos['bpi']['USD']['rate_float']
+        return precio_usd
+    except requests.RequestException as e:
+        print("Error al consultar el precio de Bitcoin:", e)
+        return None
+
+def main():
+    # Solicitar la cantidad de bitcoins
+    try:
+        n = float(input("Ingrese la cantidad de bitcoins que posee: "))
+    except ValueError:
+        print("Por favor, ingrese un número válido.")
+        return
+    
+   precio_actual = obtener_precio_bitcoin()
+    
+    if precio_actual is not None:
+        valor_total = n * precio_actual
+        # Mostrar el resultado con separadores de miles y 4 decimales
+        print(f"El valor de {n} bitcoins en USD es: ${valor_total:,.4f}")
+
+if __name__ == "__main__":
+    main()
+##LIBRERÍA NECESARIA: REQUESTS
+
+
+##PROBLEMA 2
+from pyfiglet import Figlet
+import random
+
+def generar_figlet(texto, fuente=None):
+    # Para crear un objeto Figlet
+    figlet = Figlet()
+
+    # Establecer la fuente brindada
+    if fuente:
+        try:
+            figlet.setFont(font=fuente)
+        except:
+            print(f"La fuente '{fuente}' no es válida. Se utilizará una fuente aleatoria.")
+            fuente = None
+
+    # Generar una aleatoria si no se proporciona la fuente
+    if not fuente:
+        fuente = random.choice(figlet.getFonts())
+        figlet.setFont(font=fuente)
+        print(f"Se ha seleccionado una fuente aleatoria: {fuente}")
+
+    # Generar el arte ASCII
+    return figlet.renderText(texto)
+
+def main():
+    fuente = input("Ingrese el nombre de una fuente (presione Enter para usar una aleatoria): ").strip()
+    
+    texto = input("Ingrese el texto a imprimir: ").strip()
+
+    arte_ascii = generar_figlet(texto, fuente if fuente else None)
+    print(arte_ascii)
+
+if __name__ == "__main__":
+    main()
+
+
+#PROBLEMA 3
+import zipfile
+import os
+
+# Definir la ruta 
+ruta_imagen = '/mnt/data/image.png'
+archivo_zip = '/mnt/data/imagen_comprimida.zip'
+
+def comprimir_imagen(ruta_imagen, archivo_zip):
+    # Crear un archivo ZIP y agregar la imagen dentro de él
+    with zipfile.ZipFile(archivo_zip, 'w') as zipf:
+       
+        zipf.write(ruta_imagen, os.path.basename(ruta_imagen))
+    print(f"Imagen comprimida y guardada en: {archivo_zip}")
+
+if __name__ == "__main__":
+    comprimir_imagen(ruta_imagen, archivo_zip)
+
+def descomprimir_archivo(archivo_zip, ruta_destino):
+    # Descomprimir el archivo ZIP
+    with zipfile.ZipFile(archivo_zip, 'r') as zipf:
+        zipf.extractall(ruta_destino)
+    print(f"Imagen descomprimida en: {ruta_destino}")
+
+if __name__ == "__main__":
+    ruta_destino = '/mnt/data/'
+    descomprimir_archivo(archivo_zip, ruta_destino)
+
+
+##PROBLEMA 4
+import csv
+
+def leer_temperaturas(nombre_archivo):
+    temperaturas = []
+    
+    with open(nombre_archivo, 'r') as archivo:
+        lector_csv = csv.reader(archivo)
+        next(lector_csv)  # Saltar la cabecera
+        for linea in lector_csv:
+            fecha, temperatura = linea
+            temperaturas.append(float(temperatura))
+    
+    return temperaturas
+
+def calcular_estadisticas(temperaturas):
+    # Calcular la temperatura máxima, mínima y promedio
+    max_temp = max(temperaturas)
+    min_temp = min(temperaturas)
+    promedio = sum(temperaturas) / len(temperaturas)
+    
+    return max_temp, min_temp, promedio
+
+def escribir_resumen(nombre_archivo, max_temp, min_temp, promedio):
+    with open(nombre_archivo, 'w') as archivo:
+        archivo.write(f"Temperatura máxima: {max_temp:.2f}°C\n")
+        archivo.write(f"Temperatura mínima: {min_temp:.2f}°C\n")
+        archivo.write(f"Temperatura promedio: {promedio:.2f}°C\n")
+
+def main():
+    archivo_entrada = 'temperaturas.txt'
+    archivo_salida = 'resumen_temperaturas.txt'
+    
+    # Leer las temperaturas 
+    temperaturas = leer_temperaturas(archivo_entrada)
+    
+    # Calculos
+    max_temp, min_temp, promedio = calcular_estadisticas(temperaturas)
+    
+    # Resultados
+    escribir_resumen(archivo_salida, max_temp, min_temp, promedio)
+    
+    print(f"Resultados escritos en {archivo_salida}")
+
+if __name__ == "__main__":
+    main()
+
+
+
+##PROBLEMA 5
+import os
+
+def crear_tabla_multiplicar(n):
+    """Crea un archivo con la tabla de multiplicar del número n."""
+    filename = f'tabla-{n}.txt'
+    with open(filename, 'w') as file:
+        for i in range(1, 11):
+            file.write(f"{n} x {i} = {n * i}\n")
+    print(f"Tabla de multiplicar del {n} guardada en {filename}.")
+
+def mostrar_tabla(n):
+    """Muestra la tabla de multiplicar desde el archivo."""
+    filename = f'tabla-{n}.txt'
+    try:
+        with open(filename, 'r') as file:
+            contenido = file.readlines()
+            print(f"Tabla de multiplicar del {n}:")
+            for linea in contenido:
+                print(linea.strip())
+    except FileNotFoundError:
+        print(f"El archivo {filename} no existe.")
+
+def mostrar_linea_tabla(n, m):
+    """Muestra la línea m de la tabla de multiplicar desde el archivo."""
+    filename = f'tabla-{n}.txt'
+    try:
+        with open(filename, 'r') as file:
+            lineas = file.readlines()
+            if 1 <= m <= len(lineas):
+                print(f"Línea {m} de la tabla de multiplicar del {n}: {lineas[m-1].strip()}")
+            else:
+                print(f"La línea {m} no existe en el archivo {filename}.")
+    except FileNotFoundError:
+        print(f"El archivo {filename} no existe.")
+
+def main():
+    while True:
+        print("\n--- Menú ---")
+        print("1. Crear tabla de multiplicar")
+        print("2. Mostrar tabla de multiplicar")
+        print("3. Mostrar línea de la tabla")
+        print("4. Salir")
+        opcion = input("Seleccione una opción (1-4): ")
+
+        if opcion == '1':
+            n = int(input("Introduzca un número entero entre 1 y 10: "))
+            if 1 <= n <= 10:
+                crear_tabla_multiplicar(n)
+            else:
+                print("Número fuera de rango. Debe ser entre 1 y 10.")
+        
+        elif opcion == '2':
+            n = int(input("Introduzca un número entero entre 1 y 10 para mostrar la tabla: "))
+            if 1 <= n <= 10:
+                mostrar_tabla(n)
+            else:
+                print("Número fuera de rango. Debe ser entre 1 y 10.")
+        
+        elif opcion == '3':
+            n = int(input("Introduzca un número entero entre 1 y 10: "))
+            if 1 <= n <= 10:
+                m = int(input("Introduzca el número de línea que desea mostrar (entre 1 y 10): "))
+                mostrar_linea_tabla(n, m)
+            else:
+                print("Número fuera de rango. Debe ser entre 1 y 10.")
+        
+        elif opcion == '4':
+            print("Saliendo del programa.")
+            break
+        
+        else:
+            print("Opción no válida. Inténtelo de nuevo.")
+
+if __name__ == "__main__":
+    main()
+
+
+##PROBLEMA 6
+def contar_lineas_codigo(ruta_archivo):
+    """Cuenta las líneas de código excluyendo comentarios y líneas en blanco."""
+    try:
+        with open(ruta_archivo, 'r') as archivo:
+            lineas = archivo.readlines()
+            contador = 0
+            
+            for linea in lineas:
+                # Eliminar espacios en blanco y verificar si la línea es un comentario
+                linea = linea.strip()
+                if linea and not linea.startswith('#'):
+                    contador += 1
+            
+            return contador
+
+    except FileNotFoundError:
+        print("La ruta del archivo no es válida. Asegúrese de que el archivo exista.")
+        return None
+
+def main():
+    ruta_archivo = input("Ingrese la ruta del archivo .py: ")
+    
+    if not ruta_archivo.endswith('.py'):
+        print("El archivo debe tener la extensión .py.")
+        return
+    
+    lineas_codigo = contar_lineas_codigo(ruta_archivo)
+    
+    if lineas_codigo is not None:
+        print(f"Número de líneas de código en '{ruta_archivo}': {lineas_codigo}")
+
+if __name__ == "__main__":
+    main()
+
+
+##PROBLEMA 7
+##instalar dependientes
+pip install requests pymongo
+
+import requests
+import sqlite3
+from pymongo import MongoClient
+from datetime import datetime
+
+# MongoDB
+mongo_client = MongoClient("mongodb://localhost:27017/")
+mongo_db = mongo_client["mi_base_de_datos"]
+mongo_collection = mongo_db["sunat_info"]
+
+# obtener datos de SUNAT
+def obtener_dolar_2023():
+    url = "https://apis.net.pe/api/v1/tipo-cambio"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        return response.json()["data"]
+    else:
+        print("Error al obtener datos de SUNAT:", response.status_code)
+        return []
+
+# almacenar datos
+def almacenar_en_sqlite(data):
+    conn = sqlite3.connect("base.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sunat_info (
+            fecha TEXT,
+            compra REAL,
+            venta REAL
+        )
+    """)
+    
+    for entry in data:
+        fecha = entry['fecha']
+        compra = entry['compra']
+        venta = entry['venta']
+        cursor.execute("INSERT INTO sunat_info (fecha, compra, venta) VALUES (?, ?, ?)", (fecha, compra, venta))
+    
+    conn.commit()
+    conn.close()
+
+def almacenar_en_mongodb(data):
+    mongo_collection.delete_many({})  # Limpiar colección antes de insertar
+    mongo_collection.insert_many(data)
+
+def mostrar_contenido_sqlite():
+    conn = sqlite3.connect("base.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM sunat_info")
+    rows = cursor.fetchall()
+    
+    print("Contenido de la tabla sunat_info:")
+    for row in rows:
+        print(row)
+    
+    conn.close()
+
+# Programa principal
+def main():
+    datos_dolar = obtener_dolar_2023()
+    
+    if datos_dolar:
+        almacenar_en_sqlite(datos_dolar)
+        almacenar_en_mongodb(datos_dolar)
+        mostrar_contenido_sqlite()
+    else:
+        print("No se obtuvieron datos para almacenar.")
+
+if __name__ == "__main__":
+    main()
+
+
+##PROBLEMA 8
+import csv
+import sqlite3
+
+# obtener el tipo de cambio
+def obtener_tipo_cambio(fecha):
+    conn = sqlite3.connect("base.db")
+    cursor = conn.cursor()
+
+    # Obtener el tipo de cambio más reciente antes o en la fecha dada
+    cursor.execute("""
+        SELECT compra, venta FROM sunat_info
+        WHERE fecha <= ?
+        ORDER BY fecha DESC LIMIT 1
+    """, (fecha,))
+    
+    tipo_cambio = cursor.fetchone()
+    conn.close()
+    
+    return tipo_cambio
+
+# calcular totales
+def procesar_ventas(archivo_csv):
+    total_ventas = {}
+
+    with open(archivo_csv, mode='r') as file:
+        reader = csv.reader(file)
+        next(reader)  # Saltar encabezados si hay
+
+        for row in reader:
+            fecha, producto, cantidad, precio_unitario = row
+            cantidad = int(cantidad)
+            precio_unitario = float(precio_unitario)
+
+            # TC fecha de compra
+            tipo_cambio = obtener_tipo_cambio(fecha)
+
+            if tipo_cambio:
+                compra, venta = tipo_cambio
+                total_dolares = cantidad * precio_unitario
+                total_soles = total_dolares * venta
+                
+                if producto not in total_ventas:
+                    total_ventas[producto] = {'dolares': 0, 'soles': 0}
+                
+                total_ventas[producto]['dolares'] += total_dolares
+                total_ventas[producto]['soles'] += total_soles
+
+    return total_ventas
+
+def escribir_totales(ventas_totales, archivo_salida):
+    with open(archivo_salida, mode='w') as file:
+        for producto, totales in ventas_totales.items():
+            file.write(f"{producto}: {totales['dolares']:.2f} USD, {totales['soles']:.2f} PEN\n")
+
+# Programa principal
+def main():
+    archivo_csv = "ventas.csv"
+    archivo_salida = "total_ventas.txt"
+    
+    ventas_totales = procesar_ventas(archivo_csv)
+    escribir_totales(ventas_totales, archivo_salida)
+
+    print(f"Los totales de ventas han sido escritos en {archivo_salida}.")
+
+if __name__ == "__main__":
+    main()
